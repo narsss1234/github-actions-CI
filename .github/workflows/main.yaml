@@ -17,10 +17,10 @@ jobs:
                 aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
                 aws-region: ap-south-1
 
-            # - name: search and replace the auth key
-            #   run: |
-            #     export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain vprofile --domain-owner 367065853931 --region ap-south-1 --query authorizationToken --output text`
-            #     sed -i "s/env.CODEARTIFACT_AUTH_TOKEN/`echo $CODEARTIFACT_AUTH_TOKEN`/" settings.xml
+            - name: search and replace the auth key
+              run: |
+                export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain vprofile --domain-owner 367065853931 --region ap-south-1 --query authorizationToken --output text`
+                sed -i "s/env.CODEARTIFACT_AUTH_TOKEN/`echo $CODEARTIFACT_AUTH_TOKEN`/" settings.xml
 
             - name: setup JDK and maven
               uses: actions/setup-java@v3
@@ -29,5 +29,8 @@ jobs:
                 distribution: 'temurin'
                 cache: maven
             
-            - name: lets run mvn install
-              run: mvn install
+            - name: Maven test
+              run: mvn -s settings.xml test
+            
+            - name: Checkstyle
+              run: mvn -s settings.xml checkstyle:checkstyle
