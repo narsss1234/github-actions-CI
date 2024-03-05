@@ -22,3 +22,4 @@ jobs:
                 ls
                 export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain vprofile --domain-owner 367065853931 --region ap-south-1 --query authorizationToken --output text`
                 sed -i 's/${env.CODEARTIFACT_AUTH_TOKEN}/`echo $CODEARTIFACT_AUTH_TOKEN`/g' settings.xml
+                cat settings.xml
