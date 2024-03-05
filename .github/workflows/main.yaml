@@ -2,7 +2,7 @@ name: github-Actions-CI
 on: 
     push:
         branches:
-            - main
+            - ci-aws
 jobs:
     Testing:
         runs-on: ubuntu-latest
