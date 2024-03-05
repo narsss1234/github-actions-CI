@@ -2,7 +2,7 @@ name: github-Actions-CI
 on: 
     push:
         branches:
-            - ci-aws
+            - main
 jobs:
     Testing:
         runs-on: ubuntu-latest
@@ -59,4 +59,3 @@ jobs:
               timeout-minutes: 5
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                
