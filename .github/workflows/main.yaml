@@ -85,5 +85,5 @@ jobs:
             region: ap-south-1
             tags: latest,${{ github.run_number }}
             daemon_off: false
-            dockerfile: Docker/db/Dockerfile
-            context: Docker/
+            dockerfile: ./Dockerfile
+            context: Docker/db/
