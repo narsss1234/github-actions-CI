@@ -58,11 +58,11 @@ jobs:
         - name: Code checkout
           uses: actions/checkout@v4
         
-        - name: Update application.properties
-          run: |
-            sed -i "s/db01/${{ secrets.RDS_ENDPOINT }}/" src/main/resources/application.properties
+        # - name: Update application.properties
+        #   run: |
+        #     sed -i "s/db01/${{ secrets.RDS_ENDPOINT }}/" src/main/resources/application.properties
 
-        - name: upload image to ECR
+        - name: upload app image to ECR
           uses: appleboy/docker-ecr-action@master
           with:
               access_key: ${{ secrets.AWS_ACCESS_KEY }}
@@ -75,7 +75,7 @@ jobs:
               dockerfile: ./Dockerfile
               context: ./
         
-        - name: upload image to ECR
+        - name: upload db image to ECR
           uses: appleboy/docker-ecr-action@master
           with:
             access_key: ${{ secrets.AWS_ACCESS_KEY }}
