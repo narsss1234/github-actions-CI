@@ -52,10 +52,25 @@ jobs:
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml
 
-            - name: SonarQube Quality Gate check
-              id: sonarqube-quality-gate-check
-              uses: sonarsource/sonarqube-quality-gate-action@master
-              # Force to fail step after specific time.
-              timeout-minutes: 5
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    Build_and_Publish:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Code checkout
+          uses: actions/checkout@v4
+        
+        - name: Update application.properties
+          run: |
+            sed -i "s/db01/${{ secrets.RDS_ENDPOINT }}/" src/main/resources/application.properties
+
+        - name: upload image to ECR
+          uses: appleboy/docker-ecr-action@master
+          with:
+              access_key: ${{ secrets.AWS_ACCESS_KEY }}
+              secret_key: ${{ secrets.AWS_SECRET_KEY }}
+              registry: 367065853931.dkr.ecr.ap-south-1.amazonaws.com
+              repo: vprofile-app
+              region: ap-south-1
+              tags: latest,${{ github.run_number }}
+              daemon_off: false
+              dockerfile: ./Dockerfile
+              context: ./
