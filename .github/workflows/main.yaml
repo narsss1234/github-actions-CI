@@ -74,3 +74,16 @@ jobs:
               daemon_off: false
               dockerfile: ./Dockerfile
               context: ./
+        
+        - name: upload image to ECR
+          uses: appleboy/docker-ecr-action@master
+          with:
+            access_key: ${{ secrets.AWS_ACCESS_KEY }}
+            secret_key: ${{ secrets.AWS_SECRET_KEY }}
+            registry: 367065853931.dkr.ecr.ap-south-1.amazonaws.com
+            repo: vprofile-cb
+            region: ap-south-1
+            tags: latest,${{ github.run_number }}
+            daemon_off: false
+            dockerfile: Docker/db/Dockerfile
+            context: Docker
